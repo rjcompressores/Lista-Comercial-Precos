@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Comercial — Grupo RJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12161d;
+    --surface:#1a212c;
+    --surface-2:#212a37;
+    --border:#2a3444;
+    --amber:#f2a93b;
+    --cyan:#4fb8c4;
+    --text:#e9ecf1;
+    --muted:#8b95a7;
+    --danger:#e2664f;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(79,184,196,0.06), transparent 40%),
+      radial-gradient(circle at 85% 10%, rgba(242,169,59,0.05), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.02em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- Header: riveted plate ---------- */
+  .plate-wrap{padding:22px 16px 0;}
+  .plate{
+    max-width:920px;
+    margin:0 auto;
+    background:linear-gradient(155deg,#232c39,#171c25);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:26px 24px 22px;
+    position:relative;
+    box-shadow:0 20px 40px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+  }
+  .rivet{
+    position:absolute; width:8px; height:8px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #4a5468, #1b212b);
+    box-shadow:0 1px 2px rgba(0,0,0,0.6), inset 0 0 1px rgba(255,255,255,0.2);
+  }
+  .rivet.tl{top:10px;left:10px;} .rivet.tr{top:10px;right:10px;}
+  .rivet.bl{bottom:10px;left:10px;} .rivet.br{bottom:10px;right:10px;}
+  .plate-eyebrow{
+    color:var(--amber); font-size:11px; letter-spacing:0.18em; font-weight:600;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .plate h1{font-size:clamp(26px,5vw,38px); margin:6px 0 4px; color:var(--text);}
+  .plate .sub{color:var(--muted); font-size:14px; margin:0;}
+  .gauge{
+    position:absolute; right:22px; top:18px; width:52px; height:52px;
+    border-radius:50%; border:2px solid var(--border);
+    background:radial-gradient(circle at 40% 35%, #2a3444, #171c25);
+    display:none;
+  }
+  @media(min-width:640px){ .gauge{display:block;} }
+  .gauge .needle{
+    position:absolute; left:50%; top:50%; width:2px; height:18px;
+    background:var(--amber); transform-origin:bottom center;
+    transform:translate(-50%,-100%) rotate(-40deg);
+    animation:settle 1.4s ease-out forwards;
+    border-radius:2px;
+  }
+  @keyframes settle{
+    0%{transform:translate(-50%,-100%) rotate(120deg);}
+    100%{transform:translate(-50%,-100%) rotate(-40deg);}
+  }
+
+  /* ---------- Search + Nav ---------- */
+  .controls{max-width:920px;margin:18px auto 0;padding:0 16px;}
+  .search{
+    width:100%; padding:12px 14px; border-radius:8px;
+    background:var(--surface); border:1px solid var(--border);
+    color:var(--text); font-size:14px; font-family:'IBM Plex Sans',sans-serif;
+  }
+  .search::placeholder{color:var(--muted);}
+  .search:focus{outline:2px solid var(--cyan); outline-offset:1px;}
+
+  .tabs{
+    display:flex; gap:8px; overflow-x:auto; margin:14px 0 0; padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .tab{
+    flex:0 0 auto; display:flex; align-items:center; gap:8px;
+    padding:9px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--surface); color:var(--muted); font-size:13px; font-weight:500;
+    cursor:pointer; white-space:nowrap; transition:all .15s ease;
+  }
+  .tab .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; padding:2px 6px;
+    border-radius:4px; background:var(--surface-2); color:var(--cyan);
+  }
+  .tab.active{background:var(--surface-2); color:var(--text); border-color:var(--cyan);}
+  .tab.active .tag{background:var(--cyan); color:#0d1116;}
+  .tab:focus-visible{outline:2px solid var(--cyan); outline-offset:2px;}
+
+  /* ---------- Content ---------- */
+  main{max-width:920px; margin:0 auto; padding:20px 16px 80px;}
+  .section{display:none;}
+  .section.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  .section-head{margin-bottom:16px;}
+  .section-head h2{font-size:20px; margin:0 0 4px; color:var(--text);}
+  .section-head p{color:var(--muted); font-size:13px; margin:0;}
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px; margin-bottom:16px;
+  }
+  .card h3{font-size:14px; margin:0 0 12px; color:var(--amber); letter-spacing:0.03em;}
+
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+    letter-spacing:0.04em; color:var(--muted); text-transform:uppercase;
+    padding:8px 8px; border-bottom:1px solid var(--border);
+  }
+  td{padding:9px 8px; border-bottom:1px solid rgba(42,52,68,0.5); font-family:'IBM Plex Mono',monospace;}
+  td.name{font-family:'IBM Plex Sans',sans-serif; color:var(--text);}
+  td.val{color:var(--cyan); text-align:right;}
+  td.val.min{color:var(--muted);}
+  tr.hidden{display:none;}
+  tr:last-child td{border-bottom:none;}
+  .scroll-x{overflow-x:auto;}
+
+  .rule-box{
+    border-left:3px solid var(--amber); background:rgba(242,169,59,0.06);
+    border-radius:0 8px 8px 0; padding:12px 14px; margin:0 0 14px; font-size:13px;
+  }
+  .rule-box b{color:var(--amber);}
+
+  .grid-2{display:grid; grid-template-columns:1fr; gap:12px;}
+  @media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr;}}
+
+  .pill-value{
+    display:inline-flex; flex-direction:column; gap:2px; background:var(--surface-2);
+    border:1px solid var(--border); border-radius:8px; padding:10px 14px;
+  }
+  .pill-value .lbl{font-size:10.5px; color:var(--muted); font-family:'IBM Plex Mono',monospace; text-transform:uppercase;}
+  .pill-value .num{font-size:18px; color:var(--amber); font-family:'IBM Plex Mono',monospace; font-weight:600;}
+
+  ul.plain{margin:6px 0 0; padding-left:18px; font-size:13px; color:var(--muted);}
+  ul.plain li{margin-bottom:4px;}
+  ul.plain b{color:var(--text);}
+
+  footer{
+    max-width:920px; margin:0 auto; padding:20px 16px 40px; text-align:center;
+  }
+  footer p{color:var(--muted); font-size:11.5px; font-family:'IBM Plex Mono',monospace; margin:2px 0;}
+
+  .empty-note{color:var(--muted); font-style:italic;}
+
+  /* ---------- Lock screen ---------- */
+  #lock{
+    position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(79,184,196,0.06), transparent 40%),
+      radial-gradient(circle at 85% 10%, rgba(242,169,59,0.05), transparent 40%),
+      var(--bg);
+    padding:16px;
+  }
+  #lock.hidden{display:none;}
+  .lock-plate{
+    width:100%; max-width:380px; background:linear-gradient(155deg,#232c39,#171c25);
+    border:1px solid var(--border); border-radius:10px; padding:30px 26px;
+    position:relative; box-shadow:0 20px 40px -20px rgba(0,0,0,0.6);
+    text-align:center;
+  }
+  .lock-icon{
+    width:44px; height:44px; margin:0 auto 14px; border-radius:50%;
+    border:2px solid var(--amber); display:flex; align-items:center; justify-content:center;
+    color:var(--amber); font-family:'IBM Plex Mono',monospace; font-size:18px;
+  }
+  .lock-plate h2{font-size:18px; margin:0 0 6px; color:var(--text);}
+  .lock-plate p{color:var(--muted); font-size:12.5px; margin:0 0 18px;}
+  #lockInput{
+    width:100%; padding:12px 14px; border-radius:8px; text-align:center;
+    background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+    font-size:15px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.08em;
+  }
+  #lockInput:focus{outline:2px solid var(--cyan); outline-offset:1px;}
+  #lockBtn{
+    width:100%; margin-top:12px; padding:12px; border-radius:8px; border:none;
+    background:var(--amber); color:#171c25; font-weight:600; font-size:14px;
+    cursor:pointer; font-family:'IBM Plex Sans',sans-serif; transition:filter .15s;
+  }
+  #lockBtn:hover{filter:brightness(1.08);}
+  #lockError{color:var(--danger); font-size:12px; margin-top:10px; min-height:16px;}
+  .lock-plate.shake{animation:shake .35s;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <div class="lock-plate" id="lockPlate">
+    <div class="lock-icon">&#128274;</div>
+    <h2>Acesso restrito</h2>
+    <p>Manual comercial — uso exclusivo da equipe Grupo RJ.<br>Digite a senha para continuar.</p>
+    <input id="lockInput" type="password" placeholder="senha" autocomplete="off">
+    <button id="lockBtn">Acessar</button>
+    <div id="lockError"></div>
+  </div>
+</div>
+
+<div class="plate-wrap">
+  <div class="plate">
+    <span class="rivet tl"></span><span class="rivet tr"></span>
+    <span class="rivet bl"></span><span class="rivet br"></span>
+    <div class="gauge"><span class="needle"></span></div>
+    <div class="plate-eyebrow">GRUPO RJ COMPRESSORES · USO INTERNO</div>
+    <h1>Manual Comercial</h1>
+    <p class="sub">Preços de venda, mão de obra e políticas — atualizado Fev/2026 · HH atualizado 26/06/2026</p>
+  </div>
+</div>
+
+<div class="controls">
+  <input class="search" id="searchInput" type="text" placeholder="Buscar modelo, ex: &quot;15 hp&quot;, &quot;CJ60&quot;, &quot;MDR-800&quot;...">
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-section="cv"><span class="tag">CV</span>Caça-Vazamentos</div>
+    <div class="tab" data-section="el"><span class="tag">EL</span>E-line (Rotor/Titan)</div>
+    <div class="tab" data-section="ch"><span class="tag">CH</span>Chiaperini</div>
+    <div class="tab" data-section="rp"><span class="tag">RP</span>Representação</div>
+    <div class="tab" data-section="hh"><span class="tag">HH</span>Mão de Obra</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- CAÇA VAZAMENTOS -->
+  <section class="section active" id="sec-cv">
+    <div class="section-head">
+      <h2>Caça-Vazamentos</h2>
+      <p>Detecção ultrassônica de vazamentos em redes de ar comprimido, sem parar a produção.</p>
+    </div>
+
+    <div class="rule-box">
+      <b>Regra obrigatória:</b> toda proposta de caça-vazamentos deve ser montada a pelo menos <b>2 mãos</b>. Conforme a complexidade do caso, o Coordenador aciona José Lino e/ou Alexandro para apoiar. Objetivo: maximizar a chance de sucesso considerando o histórico e a estratégia do Grupo RJ com o cliente.
+    </div>
+
+    <div class="card">
+      <h3>Valores de referência</h3>
+      <div class="grid-2">
+        <div class="pill-value"><span class="lbl">Diária</span><span class="num">R$ 4.700,00</span></div>
+        <div class="pill-value"><span class="lbl">Hora adicional</span><span class="num">R$ 450,00</span></div>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:12px;">Estratégia sugerida: orçamento inicial mais enxuto, cobrando hora adicional se necessário — ou parar ao atingir o número de horas contratado.</p>
+    </div>
+
+    <div class="card">
+      <h3>Incluso na diária</h3>
+      <ul class="plain">
+        <li>Até <b>8 horas</b> no cliente + almoço</li>
+        <li>Deslocamento até <b>200 km</b></li>
+        <li>1 hora para análise e emissão do relatório (apontamentos + gráficos de quantidade e valor gasto por m³/h)</li>
+        <li>Hotel e jantar entram no cálculo quando houver mais de uma diária (regra padrão de viagem)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Não incluso</h3>
+      <ul class="plain">
+        <li>Serviços de corretiva</li>
+        <li>Conexões, tubos, mangueiras, válvulas, cilindros</li>
+        <li>Filtros reguladores e demais itens que também apresentem vazamento</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Premissas importantes</h3>
+      <ul class="plain">
+        <li>A estimativa de horas pode variar bastante — dificuldade de acesso e quantidade de vazamentos encontrados são as principais variáveis.</li>
+        <li>Vazamentos representam, em média, <b>20% a 30%</b> do ar produzido. Em instalações sem manutenção adequada, pode chegar a <b>40–50%</b>.</li>
+        <li>Após o cliente corrigir os pontos identificados, o ideal é fazer uma nova varredura para confirmar a redução.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- E-LINE -->
+  <section class="section" id="sec-el">
+    <div class="section-head">
+      <h2>E-line — Metalplan</h2>
+      <p>Lista de preços Fevereiro/2026 · vendendo pela RJ Ind. (Lucro Real)</p>
+    </div>
+
+    <div class="card">
+      <h3>Rotor Plus — compressor + reservatório</h3>
+      <div class="scroll-x"><table data-table="el">
+        <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
+        <tbody id="tbl-rotorplus"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>Rotor — só compressor (sem reservatório)</h3>
+      <div class="scroll-x"><table data-table="el">
+        <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
+        <tbody id="tbl-rotor"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>Titan Plus — secadores</h3>
+      <div class="scroll-x"><table data-table="el">
+        <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
+        <tbody id="tbl-titan"></tbody>
+      </table></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;">* Titan 20 não vem com filtro acoplado — adicionar Hyperfilter 25 na proposta.</p>
+    </div>
+
+    <div class="card">
+      <h3>Hyperfilter</h3>
+      <div class="scroll-x"><table data-table="el">
+        <thead><tr><th>Modelo</th><th style="text-align:right">Ideal</th><th style="text-align:right">Médio</th><th style="text-align:right">Mínimo</th><th>Conexão</th></tr></thead>
+        <tbody id="tbl-hyperfilter"></tbody>
+      </table></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;">Manômetro diferencial incluso nos tamanhos 300 e 470 (exceto modelo MA).</p>
+    </div>
+  </section>
+
+  <!-- CHIAPERINI -->
+  <section class="section" id="sec-ch">
+    <div class="section-head">
+      <h2>Chiaperini — Pistão e Cabeçotes</h2>
+      <p>Lista de preços Fevereiro/2026 · vendendo pela RJ Ind. (Lucro Real)</p>
+    </div>
+    <div class="card">
+      <div class="scroll-x"><table data-table="ch">
+        <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
+        <tbody id="tbl-chiaperini"></tbody>
+      </table></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;">Itens marcados "sob consulta" ainda não têm valor tabelado — confirmar com o Coordenador antes de propor.</p>
+    </div>
+  </section>
+
+  <!-- REPRESENTAÇÃO -->
+  <section class="section" id="sec-rp">
+    <div class="section-head">
+      <h2>Linha de Representação — Elgi</h2>
+      <p>Tabela de preços Fev/2026</p>
+    </div>
+
+    <div class="card">
+      <h3>PC — compressores (polia x correia)</h3>
+      <div class="scroll-x"><table data-table="rp">
+        <thead><tr><th>Potência</th><th style="text-align:right">PowerPack</th><th style="text-align:right">PowerPack Flex</th><th style="text-align:right">TotalPack</th><th style="text-align:right">TotalPack Flex</th></tr></thead>
+        <tbody id="tbl-pc"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>DD — compressores (acoplamento direto)</h3>
+      <div class="scroll-x"><table data-table="rp">
+        <thead><tr><th>Potência</th><th style="text-align:right">PowerPack</th><th style="text-align:right">PowerPack Flex</th><th style="text-align:right">TotalPack</th><th style="text-align:right">TotalPack Flex</th></tr></thead>
+        <tbody id="tbl-dd"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>Secadores — Energy Plus (Premium)</h3>
+      <div class="scroll-x"><table data-table="rp">
+        <thead><tr><th>Modelo</th><th style="text-align:right">Preço</th></tr></thead>
+        <tbody id="tbl-secadores"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>Desconto × Comissão</h3>
+      <p style="font-size:12.5px;color:var(--muted);margin:-4px 0 12px;">Quanto maior o desconto aplicado na venda, menor a comissão.</p>
+      <table>
+        <thead><tr><th>Desconto</th><th style="text-align:right">Comissão</th></tr></thead>
+        <tbody id="tbl-desconto"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- HH -->
+  <section class="section" id="sec-hh">
+    <div class="section-head">
+      <h2>Mão de Obra "HH" — Manutenção 2026</h2>
+      <p>Tabela de referência por faixa de potência. Emitida por Alexandro em 26/06/2026.</p>
+    </div>
+
+    <div class="rule-box">
+      <b>Casos especiais</b> (abertura de cliente novo, concorrente agressivo na região, volume acima de 24h, ou qualquer fator fora da rotina) devem ser sempre discutidos com a equipe de gestão antes de fechar valor.
+    </div>
+
+    <div class="card">
+      <h3>Deslocamento</h3>
+      <p style="font-size:13px;margin:0;">Considerar <b>1:00 hora técnica a cada 50 km</b> percorridos no cálculo do serviço.</p>
+    </div>
+
+    <div class="card">
+      <div class="scroll-x"><table data-table="hh">
+        <thead><tr><th>Faixa</th><th>Descrição</th><th style="text-align:right">Referência</th><th style="text-align:right">Contrato (-15%)</th></tr></thead>
+        <tbody id="tbl-hh"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Documento de uso interno exclusivo — equipe comercial Grupo RJ Compressores.</p>
+  <p>Não compartilhar fora da equipe. Valores sujeitos a revisão mensal.</p>
+</footer>
+
+<script>
+// ===================== ACESSO =====================
+// Troque a senha abaixo quando quiser. Isso é uma barreira simples (não é
+// segurança real — quem olhar o código-fonte da página consegue ver a senha).
+const SITE_PASSWORD = "rjcomercial2026";
+
+const lock = document.getElementById('lock');
+const lockPlate = document.getElementById('lockPlate');
+const lockInput = document.getElementById('lockInput');
+const lockBtn = document.getElementById('lockBtn');
+const lockError = document.getElementById('lockError');
+
+function tryUnlock(){
+  if(lockInput.value === SITE_PASSWORD){
+    sessionStorage.setItem('rj_unlocked', '1');
+    lock.classList.add('hidden');
+  } else {
+    lockError.textContent = 'Senha incorreta. Tente novamente.';
+    lockPlate.classList.remove('shake');
+    void lockPlate.offsetWidth;
+    lockPlate.classList.add('shake');
+    lockInput.value = '';
+    lockInput.focus();
+  }
+}
+lockBtn.addEventListener('click', tryUnlock);
+lockInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') tryUnlock(); });
+
+if(sessionStorage.getItem('rj_unlocked') === '1'){
+  lock.classList.add('hidden');
+} else {
+  lockInput.focus();
+}
+
+// ===================== DADOS =====================
+// Editar os arrays abaixo a cada revisão mensal. Estrutura: [nome, valor1, valor2, valor3, extra]
+
+const rotorPlus = [
+  ["4 hp mono", 21804.75, 19935.77, 19312.78],
+  ["4 hp tri", 21804.75, 19935.77, 19312.78],
+  ["6 hp", 25437.90, 23257.51, 22530.71],
+  ["10 hp", 29967.21, 27398.59, 26542.39],
+  ["15 hp", 36817.74, 33661.94, 32610.00],
+  ["15 hp Laser", 49336.16, 45107.34, 43697.74],
+  ["20 hp", 48294.55, 44155.01, 42775.17],
+  ["25 hp", 59360.00, 54272.00, 52576.00],
+];
+
+const rotor = [
+  ["4 hp mono", 19624.57, 17942.47, 17381.76],
+  ["4 hp tri", 19624.57, 17942.47, 17381.76],
+  ["6 hp", 22894.84, 20932.43, 20278.29],
+  ["10 hp", 26970.20, 24658.47, 23887.89],
+  ["15 hp", 33136.11, 30295.88, 29349.13],
+  ["15 hp Laser", 44562.97, 40743.29, 39470.06],
+  ["20 hp", 43465.53, 39739.92, 38498.04],
+  ["25 hp", 53423.26, 48844.12, 47317.75],
+];
+
+const titan = [
+  ["20 pcm*", 5679.64, 5192.81, 5030.54],
+  ["40 pcm", 8440.12, 7716.68, 7475.54],
+  ["70 pcm", 9377.42, 8573.65, 8305.72],
+  ["70 pcm Laser", 11362.21, 10388.31, 10063.67],
+  ["110 pcm", 10821.57, 9894.01, 9584.82],
+  ["150 pcm", 12985.60, 11872.54, 11501.53],
+  ["200 pcm", 14445.91, 13207.69, 12794.95],
+  ["250 pcm", 16881.72, 15434.71, 14952.38],
+];
+
+const hyperfilter = [
+  ["25", 1035.90, 979.91, 923.91, '1/2"'],
+  ["50", 1279.73, 1210.56, 1141.38, '1/2"'],
+  ["70", 1685.09, 1594.00, 1502.91, '1/2"'],
+  ["110", 2056.27, 1945.12, 1833.97, '3/4"'],
+  ["170", 2595.19, 2454.91, 2314.63, '1"'],
+  ["300*", 3056.45, 2891.24, 2726.02, '1 1/2"'],
+  ["470*", 4328.42, 4094.45, 3860.48, '1 1/2"'],
+  ["Indicador Saturação", 970.67, 918.20, 865.73, '1 1/2"'],
+];
+
+const chiaperini = [
+  ["CJ 60 APW / 425L — motor blindado 15HP 220/380 IP55 (W900)", 25336.92, 23165.19, 22441.28],
+  ["CJ 40 AP3V / 425L — motor blindado 10HP 220/380 IP55 (W800)", 18476.16, 16892.49, 16364.60],
+  ["Unidade compressora (Cbçte) — CJ60 APW", 11469.58, 10881.40, 10293.22],
+  ["Unidade compressora (Cbçte) — CJ40 AP3V", 6821.72, 6237.00, 6042.09],
+  ["Reserv. separador de cond. SCV 200L — 12 bar", null, null, null],
+  ["Reserv. separador de cond. SCV 250L — 12 bar", null, null, null],
+  ["Reserv. separador de cond. SCV 300L — 12 bar", null, null, null],
+  ["Reserv. separador de cond. SCV 425L — 12 bar", 6422.49, 6075.33, 5901.75],
+  ["Reserv. separador de cond. SCV 525L — 12 bar", null, null, null],
+  ["Reservatório horizontal 425L — CJ40 AP3V e CJ60 APW", 7175.17, 6787.32, 6593.40],
+];
+
+const pc = [
+  ["10 hp", 52404, 62769, 63970, 74335],
+  ["15 hp", 58502, 70131, 71114, 82744],
+  ["25 hp", 73951, 89061, 92660, 107771],
+  ["30 hp", 83404, 101086, 108431, 126113],
+  ["40 hp", 103829, 132076, 128321, 156567],
+  ["50 hp", 117673, 154487, 145648, 182462],
+  ["60 hp", 138452, 177627, 169289, 208465],
+  ["75 hp", 161775, 202635, 198457, 239319],
+  ["100 hp", 203638, 249434, 247539, 293335],
+];
+
+const dd = [
+  ["50 hp", null, 177099, null, 210678],
+  ["60 hp", null, 214558, null, 253418],
+  ["75 hp", null, 245678, null, 291908],
+  ["100 hp", null, 303478, null, 358813],
+  ["125 hp", null, 345008, null, 411328],
+  ["150 hp", null, 423171, null, 503622],
+  ["200 hp", 585591, 634488, 704949, 754736],
+  ["250 hp", 681751, 749669, 822667, 890585],
+];
+
+const secadores = [
+  ["MDR-300", 40285], ["MDR-400", 48061], ["MDR-500", 57145], ["MDR-600", 66634],
+  ["MDR-800", 77809], ["MDR-1000", 152672], ["MDR-1500", 190433], ["MDR-2250", 244948],
+  ["MDR-3000", 304410], ["MDR-3600", 362500], ["MDR-4800", 408731], ["MDR-5800", 472670],
+  ["MDR-7200", 629065], ["MDR-9600", 784341],
+];
+
+const desconto = [
+  [35, "10%"], [37, "7,5%"], [40, "5%"], [43, "3%"], [45, "0%"],
+];
+
+const hh = [
+  ["Até 25 HP", "Linha Pro — Compressores e Secadores", "Chamado técnico (1ª hora)", 250.00, 215.00],
+  ["Até 25 HP", "Linha Pro — Compressores e Secadores", "Mão de obra (hora técnica padrão)", 200.00, 175.00],
+  ["30 a 100 HP", "Compressores e Secadores", "Chamado técnico (1ª hora)", 350.00, 300.00],
+  ["30 a 100 HP", "Compressores e Secadores", "Mão de obra (hora técnica padrão)", 300.00, 260.00],
+  ["Acima de 125 HP", "Compressores e Secadores", "Chamado técnico (1ª hora)", 395.00, 340.00],
+  ["Acima de 125 HP", "Compressores e Secadores", "Mão de obra (hora técnica padrão)", 325.00, 280.00],
+  ["Isentos / Boosters / Sopradores / Bombas de vácuo / Geradores", "Todos os modelos", "Chamado técnico", 395.00, 340.00],
+  ["Isentos / Boosters / Sopradores / Bombas de vácuo / Geradores", "Todos os modelos", "Mão de obra", 325.00, 280.00],
+];
+
+// ===================== RENDER =====================
+function fmt(v){
+  if(v === null || v === undefined) return null;
+  return v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function money(v){
+  const f = fmt(v);
+  return f ? 'R$ ' + f : '<span class="empty-note">sob consulta</span>';
+}
+
+function renderSimple(tbodyId, rows, extraCol){
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = rows.map(r => {
+    const [name, a, b, c, extra] = r;
+    let cells = `<td class="name">${name}</td>`;
+    cells += `<td class="val">${money(a)}</td>`;
+    if(b !== undefined) cells += `<td class="val">${money(b)}</td>`;
+    if(c !== undefined) cells += `<td class="val min">${money(c)}</td>`;
+    if(extraCol && extra !== undefined) cells += `<td>${extra}</td>`;
+    return `<tr data-search="${name.toLowerCase()}">${cells}</tr>`;
+  }).join('');
+}
+
+renderSimple('tbl-rotorplus', rotorPlus);
+renderSimple('tbl-rotor', rotor);
+renderSimple('tbl-titan', titan);
+renderSimple('tbl-hyperfilter', hyperfilter, true);
+renderSimple('tbl-chiaperini', chiaperini);
+
+document.getElementById('tbl-pc').innerHTML = pc.map(r=>{
+  const [pot,a,b,c,d] = r;
+  return `<tr data-search="${('pc '+pot).toLowerCase()}"><td class="name">PC ${pot}</td><td class="val">${money(a)}</td><td class="val">${money(b)}</td><td class="val">${money(c)}</td><td class="val min">${money(d)}</td></tr>`;
+}).join('');
+
+document.getElementById('tbl-dd').innerHTML = dd.map(r=>{
+  const [pot,a,b,c,d] = r;
+  return `<tr data-search="${('dd '+pot).toLowerCase()}"><td class="name">DD ${pot}</td><td class="val">${money(a)}</td><td class="val">${money(b)}</td><td class="val">${money(c)}</td><td class="val min">${money(d)}</td></tr>`;
+}).join('');
+
+document.getElementById('tbl-secadores').innerHTML = secadores.map(r=>{
+  const [name,val] = r;
+  return `<tr data-search="${name.toLowerCase()}"><td class="name">${name}</td><td class="val">${money(val)}</td></tr>`;
+}).join('');
+
+document.getElementById('tbl-desconto').innerHTML = desconto.map(r=>{
+  const [d,c] = r;
+  return `<tr><td class="name">${d}%</td><td class="val">${c}</td></tr>`;
+}).join('');
+
+document.getElementById('tbl-hh').innerHTML = hh.map(r=>{
+  const [faixa, desc, item, ref, contrato] = r;
+  return `<tr data-search="${(faixa+' '+desc+' '+item).toLowerCase()}">
+    <td class="name">${faixa}<br><span style="color:var(--muted);font-size:11px;">${desc}</span></td>
+    <td class="name">${item}</td>
+    <td class="val min">${money(ref)}</td>
+    <td class="val">${money(contrato)}</td>
+  </tr>`;
+}).join('');
+
+// ===================== TABS =====================
+const tabs = document.querySelectorAll('.tab');
+const sections = document.querySelectorAll('.section');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('sec-' + tab.dataset.section).classList.add('active');
+    document.getElementById('searchInput').value = '';
+    filterRows('');
+  });
+});
+
+// ===================== SEARCH =====================
+function filterRows(query){
+  const q = query.trim().toLowerCase();
+  document.querySelectorAll('tr[data-search]').forEach(row => {
+    const match = !q || row.dataset.search.includes(q);
+    row.classList.toggle('hidden', !match);
+  });
+  if(q){
+    // se houver busca, mostra todas as seções que tiverem match
+    let anyGlobalMatch = false;
+    sections.forEach(sec => {
+      const hasMatch = [...sec.querySelectorAll('tr[data-search]')].some(r => !r.classList.contains('hidden'));
+      if(hasMatch) anyGlobalMatch = true;
+    });
+  }
+}
+document.getElementById('searchInput').addEventListener('input', (e) => filterRows(e.target.value));
+</script>
+</body>
+</html>
