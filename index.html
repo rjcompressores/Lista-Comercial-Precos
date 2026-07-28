@@ -567,15 +567,18 @@ function showLoadError(tbodyId, colspan){
 // ===================== CARREGAR DADOS AO VIVO =====================
 async function loadLivePrices(){
   const syncEl = document.getElementById('syncStatus');
-  try{
-    const [revendaRows, pistoesRows, repRows, hhRows] = await Promise.all([
-      fetchCsvRows(CSV_URLS.revenda),
-      fetchCsvRows(CSV_URLS.pistoes),
-      fetchCsvRows(CSV_URLS.representacao),
-      fetchCsvRows(CSV_URLS.hh)
-    ]);
+  const results = await Promise.allSettled([
+    fetchCsvRows(CSV_URLS.revenda),
+    fetchCsvRows(CSV_URLS.pistoes),
+    fetchCsvRows(CSV_URLS.representacao),
+    fetchCsvRows(CSV_URLS.hh)
+  ]);
+  const [revendaRes, pistoesRes, repRes, hhRes] = results;
+  let anyError = false;
 
-    // ---- E-line (Revenda): 4 blocos de 8 linhas, sempre nessa ordem ----
+  // ---- E-line (Revenda) ----
+  if(revendaRes.status === 'fulfilled'){
+    const revendaRows = revendaRes.value;
     const rotorPlus   = revendaRows.slice(0, 8).map(r => [r[0], parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3])]);
     const rotor       = revendaRows.slice(8, 16).map(r => [r[0], parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3])]);
     const titan       = revendaRows.slice(16, 24).map(r => [r[0], parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3])]);
@@ -584,51 +587,66 @@ async function loadLivePrices(){
       const conexao = HYPERFILTER_CONEXAO[nome.toLowerCase()] || '';
       return [nome, parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3]), conexao];
     });
+    renderSimple('tbl-rotorplus', rotorPlus);
+    renderSimple('tbl-rotor', rotor);
+    renderSimple('tbl-titan', titan);
+    renderSimple('tbl-hyperfilter', hyperfilter, true);
+  } else {
+    console.error('Falha Revenda:', revendaRes.reason);
+    ['tbl-rotorplus','tbl-rotor','tbl-titan'].forEach(id => showLoadError(id, 4));
+    showLoadError('tbl-hyperfilter', 5);
+    anyError = true;
+  }
 
-    // ---- Chiaperini (Pistões) ----
-    const chiaperini = pistoesRows.map(r => {
+  // ---- Chiaperini (Pistões) ----
+  if(pistoesRes.status === 'fulfilled'){
+    const chiaperini = pistoesRes.value.map(r => {
       const a = parseCsvNumber(r[1]), b = parseCsvNumber(r[2]), c = parseCsvNumber(r[3]);
       const semPreco = (!a && !b && !c);
       return [r[0], semPreco ? null : a, semPreco ? null : b, semPreco ? null : c];
     });
+    renderSimple('tbl-chiaperini', chiaperini);
+  } else {
+    console.error('Falha Pistões:', pistoesRes.reason);
+    showLoadError('tbl-chiaperini', 4);
+    anyError = true;
+  }
 
-    // ---- Representação: blocos empilhados na aba PARA APP - Represe. ----
-    // 9 PC, 8 DD, 14 Secador, 10 Filtros, 5 Desconto (linhas em branco já são removidas pelo skipEmptyLines)
+  // ---- Representação ----
+  if(repRes.status === 'fulfilled'){
+    const repRows = repRes.value;
     const pcRows      = repRows.slice(0, 9);
     const ddRows      = repRows.slice(9, 17);
     const secRows     = repRows.slice(17, 31);
     const filtrosRows = repRows.slice(31, 41);
     const descRows    = repRows.slice(41, 46);
-
-    // ---- HH ----
-    const hh = hhRows;
-
-    renderSimple('tbl-rotorplus', rotorPlus);
-    renderSimple('tbl-rotor', rotor);
-    renderSimple('tbl-titan', titan);
-    renderSimple('tbl-hyperfilter', hyperfilter, true);
-    renderSimple('tbl-chiaperini', chiaperini);
     renderLinePotencia('tbl-pc', pcRows);
     renderLinePotencia('tbl-dd', ddRows);
     renderNomePreco('tbl-secadores', secRows);
     renderNomePreco('tbl-filtros', filtrosRows);
     renderDesconto('tbl-desconto', descRows);
-    renderHH('tbl-hh', hh);
-
-    syncEl.textContent = 'Preços sincronizados às ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-  } catch(e){
-    console.error(e);
-    ['tbl-rotorplus','tbl-rotor','tbl-titan'].forEach(id => showLoadError(id, 4));
-    showLoadError('tbl-hyperfilter', 5);
-    showLoadError('tbl-chiaperini', 4);
+  } else {
+    console.error('Falha Representação:', repRes.reason);
     showLoadError('tbl-pc', 5);
     showLoadError('tbl-dd', 5);
     showLoadError('tbl-secadores', 2);
     showLoadError('tbl-filtros', 2);
     showLoadError('tbl-desconto', 2);
-    showLoadError('tbl-hh', 4);
-    syncEl.textContent = 'Falha ao sincronizar preços — mostrando última tentativa.';
+    anyError = true;
   }
+
+  // ---- HH ----
+  if(hhRes.status === 'fulfilled'){
+    renderHH('tbl-hh', hhRes.value);
+  } else {
+    console.error('Falha HH:', hhRes.reason);
+    showLoadError('tbl-hh', 4);
+    anyError = true;
+  }
+
+  syncEl.textContent = anyError
+    ? 'Alguns preços não sincronizaram — veja o console (F12) para detalhes.'
+    : 'Preços sincronizados às ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
 }
 
 loadLivePrices();
