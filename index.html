@@ -6,7 +6,6 @@
 <title>Manual Comercial — Grupo RJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
   :root{
     --bg:#12161d;
@@ -58,7 +57,6 @@
   }
   .plate h1{font-size:clamp(26px,5vw,38px); margin:6px 0 4px; color:var(--text);}
   .plate .sub{color:var(--muted); font-size:14px; margin:0;}
-  .plate .sync{color:var(--cyan); font-size:11.5px; margin:8px 0 0; font-family:'IBM Plex Mono',monospace;}
   .gauge{
     position:absolute; right:22px; top:18px; width:52px; height:52px;
     border-radius:50%; border:2px solid var(--border);
@@ -160,8 +158,6 @@
   footer p{color:var(--muted); font-size:11.5px; font-family:'IBM Plex Mono',monospace; margin:2px 0;}
 
   .empty-note{color:var(--muted); font-style:italic;}
-  .loading-row td{color:var(--muted); font-style:italic; font-family:'IBM Plex Sans',sans-serif;}
-  .error-row td{color:var(--danger); font-style:italic; font-family:'IBM Plex Sans',sans-serif;}
 
   #lock{
     position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
@@ -225,8 +221,7 @@
     <div class="gauge"><span class="needle"></span></div>
     <div class="plate-eyebrow">GRUPO RJ COMPRESSORES · USO INTERNO</div>
     <h1>Manual Comercial</h1>
-    <p class="sub">Preços de venda, mão de obra e políticas — atualizado em tempo real a partir das planilhas oficiais</p>
-    <p class="sync" id="syncStatus">Carregando preços…</p>
+    <p class="sub">Preços de venda, mão de obra e políticas — atualizado Jul/2026 · HH atualizado 26/06/2026</p>
   </div>
 </div>
 
@@ -294,14 +289,14 @@
   <section class="section" id="sec-el">
     <div class="section-head">
       <h2>E-line — Metalplan</h2>
-      <p>Lista de preços · vendendo pela RJ Ind. (Lucro Real) · atualizado em tempo real</p>
+      <p>Lista de preços · vendendo pela RJ Ind. (Lucro Real)</p>
     </div>
 
     <div class="card">
       <h3>Rotor Plus — compressor + reservatório</h3>
       <div class="scroll-x"><table data-table="el">
         <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
-        <tbody id="tbl-rotorplus"><tr class="loading-row"><td colspan="4">Carregando…</td></tr></tbody>
+        <tbody id="tbl-rotorplus"></tbody>
       </table></div>
     </div>
 
@@ -309,7 +304,7 @@
       <h3>Rotor — só compressor (sem reservatório)</h3>
       <div class="scroll-x"><table data-table="el">
         <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
-        <tbody id="tbl-rotor"><tr class="loading-row"><td colspan="4">Carregando…</td></tr></tbody>
+        <tbody id="tbl-rotor"></tbody>
       </table></div>
     </div>
 
@@ -317,7 +312,7 @@
       <h3>Titan Plus — secadores</h3>
       <div class="scroll-x"><table data-table="el">
         <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
-        <tbody id="tbl-titan"><tr class="loading-row"><td colspan="4">Carregando…</td></tr></tbody>
+        <tbody id="tbl-titan"></tbody>
       </table></div>
       <p style="font-size:12px;color:var(--muted);margin-top:10px;">* Titan 20 não vem com filtro acoplado — adicionar Hyperfilter 25 na proposta.</p>
     </div>
@@ -326,7 +321,7 @@
       <h3>Hyperfilter</h3>
       <div class="scroll-x"><table data-table="el">
         <thead><tr><th>Modelo</th><th style="text-align:right">Ideal</th><th style="text-align:right">Médio</th><th style="text-align:right">Mínimo</th><th>Conexão</th></tr></thead>
-        <tbody id="tbl-hyperfilter"><tr class="loading-row"><td colspan="5">Carregando…</td></tr></tbody>
+        <tbody id="tbl-hyperfilter"></tbody>
       </table></div>
       <p style="font-size:12px;color:var(--muted);margin-top:10px;">Manômetro diferencial incluso nos tamanhos 300 e 470 (exceto modelo MA).</p>
     </div>
@@ -335,12 +330,12 @@
   <section class="section" id="sec-ch">
     <div class="section-head">
       <h2>Chiaperini — Pistão e Cabeçotes</h2>
-      <p>Lista de preços · vendendo pela RJ Ind. (Lucro Real) · atualizado em tempo real</p>
+      <p>Lista de preços · vendendo pela RJ Ind. (Lucro Real)</p>
     </div>
     <div class="card">
       <div class="scroll-x"><table data-table="ch">
         <thead><tr><th>Modelo</th><th style="text-align:right">C/ Troca</th><th style="text-align:right">S/ Troca</th><th style="text-align:right">Mínima</th></tr></thead>
-        <tbody id="tbl-chiaperini"><tr class="loading-row"><td colspan="4">Carregando…</td></tr></tbody>
+        <tbody id="tbl-chiaperini"></tbody>
       </table></div>
       <p style="font-size:12px;color:var(--muted);margin-top:10px;">Itens marcados "sob consulta" ainda não têm valor tabelado — confirmar com o Coordenador antes de propor.</p>
     </div>
@@ -349,14 +344,14 @@
   <section class="section" id="sec-rp">
     <div class="section-head">
       <h2>Linha de Representação — Elgi</h2>
-      <p>Tabela de preços · atualizado em tempo real</p>
+      <p>Tabela de preços Jul/2026</p>
     </div>
 
     <div class="card">
       <h3>PC — compressores (polia x correia)</h3>
       <div class="scroll-x"><table data-table="rp">
         <thead><tr><th>Potência</th><th style="text-align:right">PowerPack</th><th style="text-align:right">PowerPack Flex</th><th style="text-align:right">TotalPack</th><th style="text-align:right">TotalPack Flex</th></tr></thead>
-        <tbody id="tbl-pc"><tr class="loading-row"><td colspan="5">Carregando…</td></tr></tbody>
+        <tbody id="tbl-pc"></tbody>
       </table></div>
     </div>
 
@@ -364,7 +359,7 @@
       <h3>DD — compressores (acoplamento direto)</h3>
       <div class="scroll-x"><table data-table="rp">
         <thead><tr><th>Potência</th><th style="text-align:right">PowerPack</th><th style="text-align:right">PowerPack Flex</th><th style="text-align:right">TotalPack</th><th style="text-align:right">TotalPack Flex</th></tr></thead>
-        <tbody id="tbl-dd"><tr class="loading-row"><td colspan="5">Carregando…</td></tr></tbody>
+        <tbody id="tbl-dd"></tbody>
       </table></div>
     </div>
 
@@ -372,7 +367,7 @@
       <h3>Secadores — Energy Plus (Premium)</h3>
       <div class="scroll-x"><table data-table="rp">
         <thead><tr><th>Modelo</th><th style="text-align:right">Preço</th></tr></thead>
-        <tbody id="tbl-secadores"><tr class="loading-row"><td colspan="2">Carregando…</td></tr></tbody>
+        <tbody id="tbl-secadores"></tbody>
       </table></div>
     </div>
 
@@ -380,7 +375,7 @@
       <h3>Hyperfilter MFC — Filtros Coalescentes e Carvão Ativado</h3>
       <div class="scroll-x"><table data-table="rp">
         <thead><tr><th>Modelo</th><th style="text-align:right">Preço</th></tr></thead>
-        <tbody id="tbl-filtros"><tr class="loading-row"><td colspan="2">Carregando…</td></tr></tbody>
+        <tbody id="tbl-filtros"></tbody>
       </table></div>
     </div>
 
@@ -389,7 +384,7 @@
       <p style="font-size:12.5px;color:var(--muted);margin:-4px 0 12px;">Quanto maior o desconto aplicado na venda, menor a comissão.</p>
       <table>
         <thead><tr><th>Desconto</th><th style="text-align:right">Comissão</th></tr></thead>
-        <tbody id="tbl-desconto"><tr class="loading-row"><td colspan="2">Carregando…</td></tr></tbody>
+        <tbody id="tbl-desconto"></tbody>
       </table>
     </div>
   </section>
@@ -397,7 +392,7 @@
   <section class="section" id="sec-hh">
     <div class="section-head">
       <h2>Mão de Obra "HH" — Manutenção 2026</h2>
-      <p>Tabela de referência por faixa de potência · atualizado em tempo real</p>
+      <p>Tabela de referência por faixa de potência. Emitida por Alexandro em 26/06/2026.</p>
     </div>
 
     <div class="rule-box">
@@ -412,7 +407,7 @@
     <div class="card">
       <div class="scroll-x"><table data-table="hh">
         <thead><tr><th>Faixa</th><th>Descrição</th><th style="text-align:right">Referência</th><th style="text-align:right">Contrato (-15%)</th></tr></thead>
-        <tbody id="tbl-hh"><tr class="loading-row"><td colspan="4">Carregando…</td></tr></tbody>
+        <tbody id="tbl-hh"></tbody>
       </table></div>
     </div>
   </section>
@@ -425,6 +420,7 @@
 </footer>
 
 <script>
+// ===================== ACESSO =====================
 const SITE_PASSWORD = "rjcomercial2026";
 
 const lock = document.getElementById('lock');
@@ -455,20 +451,121 @@ if(sessionStorage.getItem('rj_unlocked') === '1'){
   lockInput.focus();
 }
 
-// ===================== FONTES DE DADOS AO VIVO =====================
-const CSV_URLS = {
-  revenda: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmsIRo8ctSrRSSHqel7YDo5GRP78gFjHOzqYIGEPHWwfHD91t81BINMFVbDEfg6A/pub?gid=2041093411&single=true&output=csv",
-  pistoes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmsIRo8ctSrRSSHqel7YDo5GRP78gFjHOzqYIGEPHWwfHD91t81BINMFVbDEfg6A/pub?gid=1365870865&single=true&output=csv",
-  representacao: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmsIRo8ctSrRSSHqel7YDo5GRP78gFjHOzqYIGEPHWwfHD91t81BINMFVbDEfg6A/pub?gid=1437645120&single=true&output=csv",
-  hh: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ78tAl995KwkNx0ytk3JFeic4iQAuheVfvbg6Izsjo0QMG5g2qAHoa5whP3Zz2OA/pub?gid=1871972700&single=true&output=csv"
-};
+// ===================== DADOS =====================
+// EDITE OS ARRAYS ABAIXO SEMPRE QUE UM PREÇO MUDAR NA PLANILHA MESTRE.
+// Estrutura: [nome, valor1, valor2, valor3, extra]
 
-const HYPERFILTER_CONEXAO = {
-  "25": '1/2"', "50": '1/2"', "70": '1/2"', "110": '3/4"', "170": '1"',
-  "300*": '1 1/2"', "470*": '1 1/2"', "indicador saturação": '1 1/2"'
-};
+const rotorPlus = [
+  ["4 hp mono", 21804.75, 19935.77, 19312.78],
+  ["4 hp tri", 21804.75, 19935.77, 19312.78],
+  ["6 hp", 25437.90, 23257.51, 22530.71],
+  ["10 hp", 29967.21, 27398.59, 26542.39],
+  ["15 hp", 36817.74, 33661.94, 32610.00],
+  ["15 hp Laser", 49336.16, 45107.34, 43697.74],
+  ["20 hp", 48294.55, 44155.01, 42775.17],
+  ["25 hp", 59360.00, 54272.00, 52576.00],
+];
 
-// ===================== HELPERS =====================
+const rotor = [
+  ["4 hp mono", 19624.57, 17942.47, 17381.76],
+  ["4 hp tri", 19624.57, 17942.47, 17381.76],
+  ["6 hp", 22894.84, 20932.43, 20278.29],
+  ["10 hp", 26970.20, 24658.47, 23887.89],
+  ["15 hp", 33136.11, 30295.88, 29349.13],
+  ["15 hp Laser", 44562.97, 40743.29, 39470.06],
+  ["20 hp", 43465.53, 39739.92, 38498.04],
+  ["25 hp", 53423.26, 48844.12, 47317.75],
+];
+
+const titan = [
+  ["20 pcm*", 5679.64, 5192.81, 5030.54],
+  ["40 pcm", 8440.12, 7716.68, 7475.54],
+  ["70 pcm", 9377.42, 8573.65, 8305.72],
+  ["70 pcm Laser", 11362.21, 10388.31, 10063.67],
+  ["110 pcm", 10821.57, 9894.01, 9584.82],
+  ["150 pcm", 12985.60, 11872.54, 11501.53],
+  ["200 pcm", 14445.91, 13207.69, 12794.95],
+  ["250 pcm", 16881.72, 15434.71, 14952.38],
+];
+
+const hyperfilter = [
+  ["25", 1035.90, 979.91, 923.91, '1/2"'],
+  ["50", 1279.73, 1210.56, 1141.38, '1/2"'],
+  ["70", 1685.09, 1594.00, 1502.91, '1/2"'],
+  ["110", 2056.27, 1945.12, 1833.97, '3/4"'],
+  ["170", 2595.19, 2454.91, 2314.63, '1"'],
+  ["300*", 3056.45, 2891.24, 2726.02, '1 1/2"'],
+  ["470*", 4328.42, 4094.45, 3860.48, '1 1/2"'],
+  ["Indicador Saturação", 970.67, 918.20, 865.73, '1 1/2"'],
+];
+
+const chiaperini = [
+  ["CJ 60 APW / 425L — motor blindado 15HP 220/380 IP55 (W900)", 25336.92, 23165.19, 22441.28],
+  ["CJ 40 AP3V / 425L — motor blindado 10HP 220/380 IP55 (W800)", 18476.16, 16892.49, 16364.60],
+  ["Unidade compressora (Cbçte) — CJ60 APW", 11469.58, 10881.40, 10293.22],
+  ["Unidade compressora (Cbçte) — CJ40 AP3V", 6821.72, 6237.00, 6042.09],
+  ["Reserv. separador de cond. SCV 200L — 12 bar", null, null, null],
+  ["Reserv. separador de cond. SCV 250L — 12 bar", null, null, null],
+  ["Reserv. separador de cond. SCV 300L — 12 bar", null, null, null],
+  ["Reserv. separador de cond. SCV 425L — 12 bar", 6422.49, 6075.33, 5901.75],
+  ["Reserv. separador de cond. SCV 525L — 12 bar", null, null, null],
+  ["Reservatório horizontal 425L — CJ40 AP3V e CJ60 APW", 7175.17, 6787.32, 6593.40],
+];
+
+const pc = [
+  ["10 hp", 52404, 62769, 63970, 74335],
+  ["15 hp", 58502, 70131, 71114, 82744],
+  ["25 hp", 73951, 89061, 92660, 107771],
+  ["30 hp", 83404, 101086, 108431, 126113],
+  ["40 hp", 103829, 132076, 128321, 156567],
+  ["50 hp", 117673, 154487, 145648, 182462],
+  ["60 hp", 138452, 177627, 169289, 208465],
+  ["75 hp", 161775, 202635, 198457, 239319],
+  ["100 hp", 203638, 249434, 247539, 293335],
+];
+
+const dd = [
+  ["50 hp", null, 177099, null, 210678],
+  ["60 hp", null, 214558, null, 253418],
+  ["75 hp", null, 245678, null, 291908],
+  ["100 hp", null, 303478, null, 358813],
+  ["125 hp", null, 345008, null, 411328],
+  ["150 hp", null, 423171, null, 503622],
+  ["200 hp", 585591, 634488, 704949, 754736],
+  ["250 hp", 681751, 749669, 822667, 890585],
+];
+
+const secadores = [
+  ["MDR-300", 40285], ["MDR-400", 48061], ["MDR-500", 57145], ["MDR-600", 66634],
+  ["MDR-800", 77809], ["MDR-1000", 152672], ["MDR-1500", 190433], ["MDR-2250", 244948],
+  ["MDR-3000", 304410], ["MDR-3600", 362500], ["MDR-4800", 408731], ["MDR-5800", 472670],
+  ["MDR-7200", 629065], ["MDR-9600", 784341],
+];
+
+// Categoria nova (Hyperfilter MFC — Filtros Coalescentes e Carvão Ativado)
+const filtros = [
+  ["MFC - 700", 12352], ["MFC - 910", 13706], ["MFC - 1350", 17967], ["MFC - 1950", 25285],
+  ["MFC - 2420", 34808], ["MFC - 4000", 49141], ["MFC - 5400", 57613], ["MFC - 6800", 71472],
+  ["MFC - 8100", 79994], ["MFC - 9500", 86519],
+];
+
+// Comissão ajustada (Jul/2026)
+const desconto = [
+  [35, "7%"], [37, "5,5%"], [40, "3,5%"], [43, "1,5%"], [45, "0%"],
+];
+
+const hh = [
+  ["Até 25 HP", "Linha Pro — Compressores e Secadores", "Chamado técnico (1ª hora)", 250.00, 215.00],
+  ["Até 25 HP", "Linha Pro — Compressores e Secadores", "Mão de obra (hora técnica padrão)", 200.00, 175.00],
+  ["30 a 100 HP", "Compressores e Secadores", "Chamado técnico (1ª hora)", 350.00, 300.00],
+  ["30 a 100 HP", "Compressores e Secadores", "Mão de obra (hora técnica padrão)", 300.00, 260.00],
+  ["Acima de 125 HP", "Compressores e Secadores", "Chamado técnico (1ª hora)", 395.00, 340.00],
+  ["Acima de 125 HP", "Compressores e Secadores", "Mão de obra (hora técnica padrão)", 325.00, 280.00],
+  ["Isentos / Boosters / Sopradores / Bombas de vácuo / Geradores", "Todos os modelos", "Chamado técnico", 395.00, 340.00],
+  ["Isentos / Boosters / Sopradores / Bombas de vácuo / Geradores", "Todos os modelos", "Mão de obra", 325.00, 280.00],
+];
+
+// ===================== RENDER =====================
 function fmt(v){
   if(v === null || v === undefined) return null;
   return v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -477,28 +574,9 @@ function money(v){
   const f = fmt(v);
   return f ? 'R$ ' + f : '<span class="empty-note">sob consulta</span>';
 }
-function parseCsvNumber(str){
-  if(str === undefined || str === null) return null;
-  const cleaned = String(str).replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.');
-  if(cleaned === '' || cleaned === '-') return null;
-  const n = parseFloat(cleaned);
-  return isNaN(n) ? null : n;
-}
-
-async function fetchCsvRows(url){
-  const res = await fetch(url + (url.includes('?') ? '&' : '?') + 'cachebust=' + Date.now());
-  if(!res.ok) throw new Error('HTTP ' + res.status);
-  const text = await res.text();
-  const parsed = Papa.parse(text.trim(), {skipEmptyLines:true});
-  return parsed.data.slice(1); // remove cabeçalho
-}
 
 function renderSimple(tbodyId, rows, extraCol){
   const tbody = document.getElementById(tbodyId);
-  if(rows.length === 0){
-    tbody.innerHTML = '<tr class="loading-row"><td colspan="5">Nenhum dado encontrado.</td></tr>';
-    return;
-  }
   tbody.innerHTML = rows.map(r => {
     const [name, a, b, c, extra] = r;
     let cells = `<td class="name">${name}</td>`;
@@ -510,147 +588,46 @@ function renderSimple(tbodyId, rows, extraCol){
   }).join('');
 }
 
-// [linha, potencia, a, b, c, d] -> usado por PC e DD
-function renderLinePotencia(tbodyId, rows){
-  const tbody = document.getElementById(tbodyId);
-  tbody.innerHTML = rows.map(r => {
-    const [linha, pot, a, b, c, d] = r;
-    const label = `${(linha||'').trim()} ${(pot||'').toString().trim()}`.trim();
-    return `<tr data-search="${label.toLowerCase()}">
-      <td class="name">${label}</td>
-      <td class="val">${money(parseCsvNumber(a))}</td>
-      <td class="val">${money(parseCsvNumber(b))}</td>
-      <td class="val">${money(parseCsvNumber(c))}</td>
-      <td class="val min">${money(parseCsvNumber(d))}</td>
-    </tr>`;
-  }).join('');
-}
+renderSimple('tbl-rotorplus', rotorPlus);
+renderSimple('tbl-rotor', rotor);
+renderSimple('tbl-titan', titan);
+renderSimple('tbl-hyperfilter', hyperfilter, true);
+renderSimple('tbl-chiaperini', chiaperini);
 
-// [categoria, modelo, preco] -> usado por Secadores e Filtros MFC
-function renderNomePreco(tbodyId, rows){
-  const tbody = document.getElementById(tbodyId);
-  tbody.innerHTML = rows.map(r => {
-    const modelo = (r[1] || '').trim();
-    const preco = parseCsvNumber(r[2]);
-    return `<tr data-search="${modelo.toLowerCase()}"><td class="name">${modelo}</td><td class="val">${money(preco)}</td></tr>`;
-  }).join('');
-}
+document.getElementById('tbl-pc').innerHTML = pc.map(r=>{
+  const [pot,a,b,c,d] = r;
+  return `<tr data-search="${('pc '+pot).toLowerCase()}"><td class="name">PC ${pot}</td><td class="val">${money(a)}</td><td class="val">${money(b)}</td><td class="val">${money(c)}</td><td class="val min">${money(d)}</td></tr>`;
+}).join('');
 
-function renderDesconto(tbodyId, rows){
-  const tbody = document.getElementById(tbodyId);
-  tbody.innerHTML = rows.map(r => {
-    let desconto = (r[0] || '').toString().trim();
-    if(desconto && !desconto.includes('%')) desconto += '%';
-    const comissao = (r[1] || '').toString().trim();
-    return `<tr><td class="name">${desconto}</td><td class="val">${comissao}</td></tr>`;
-  }).join('');
-}
+document.getElementById('tbl-dd').innerHTML = dd.map(r=>{
+  const [pot,a,b,c,d] = r;
+  return `<tr data-search="${('dd '+pot).toLowerCase()}"><td class="name">DD ${pot}</td><td class="val">${money(a)}</td><td class="val">${money(b)}</td><td class="val">${money(c)}</td><td class="val min">${money(d)}</td></tr>`;
+}).join('');
 
-function renderHH(tbodyId, rows){
-  const tbody = document.getElementById(tbodyId);
-  tbody.innerHTML = rows.map(r => {
-    const [faixa, desc, item, ref, contrato] = r;
-    return `<tr data-search="${(faixa+' '+desc+' '+item).toLowerCase()}">
-      <td class="name">${faixa}<br><span style="color:var(--muted);font-size:11px;">${desc}</span></td>
-      <td class="name">${item}</td>
-      <td class="val min">${money(parseCsvNumber(ref))}</td>
-      <td class="val">${money(parseCsvNumber(contrato))}</td>
-    </tr>`;
-  }).join('');
-}
+document.getElementById('tbl-secadores').innerHTML = secadores.map(r=>{
+  const [name,val] = r;
+  return `<tr data-search="${name.toLowerCase()}"><td class="name">${name}</td><td class="val">${money(val)}</td></tr>`;
+}).join('');
 
-function showLoadError(tbodyId, colspan){
-  document.getElementById(tbodyId).innerHTML =
-    `<tr class="error-row"><td colspan="${colspan}">Não foi possível carregar os preços agora. Tente recarregar a página.</td></tr>`;
-}
+document.getElementById('tbl-filtros').innerHTML = filtros.map(r=>{
+  const [name,val] = r;
+  return `<tr data-search="${name.toLowerCase()}"><td class="name">${name}</td><td class="val">${money(val)}</td></tr>`;
+}).join('');
 
-// ===================== CARREGAR DADOS AO VIVO =====================
-async function loadLivePrices(){
-  const syncEl = document.getElementById('syncStatus');
-  const results = await Promise.allSettled([
-    fetchCsvRows(CSV_URLS.revenda),
-    fetchCsvRows(CSV_URLS.pistoes),
-    fetchCsvRows(CSV_URLS.representacao),
-    fetchCsvRows(CSV_URLS.hh)
-  ]);
-  const [revendaRes, pistoesRes, repRes, hhRes] = results;
-  let anyError = false;
+document.getElementById('tbl-desconto').innerHTML = desconto.map(r=>{
+  const [d,c] = r;
+  return `<tr><td class="name">${d}%</td><td class="val">${c}</td></tr>`;
+}).join('');
 
-  // ---- E-line (Revenda) ----
-  if(revendaRes.status === 'fulfilled'){
-    const revendaRows = revendaRes.value;
-    const rotorPlus   = revendaRows.slice(0, 8).map(r => [r[0], parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3])]);
-    const rotor       = revendaRows.slice(8, 16).map(r => [r[0], parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3])]);
-    const titan       = revendaRows.slice(16, 24).map(r => [r[0], parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3])]);
-    const hyperfilter = revendaRows.slice(24, 32).map(r => {
-      const nome = (r[0] || '').trim();
-      const conexao = HYPERFILTER_CONEXAO[nome.toLowerCase()] || '';
-      return [nome, parseCsvNumber(r[1]), parseCsvNumber(r[2]), parseCsvNumber(r[3]), conexao];
-    });
-    renderSimple('tbl-rotorplus', rotorPlus);
-    renderSimple('tbl-rotor', rotor);
-    renderSimple('tbl-titan', titan);
-    renderSimple('tbl-hyperfilter', hyperfilter, true);
-  } else {
-    console.error('Falha Revenda:', revendaRes.reason);
-    ['tbl-rotorplus','tbl-rotor','tbl-titan'].forEach(id => showLoadError(id, 4));
-    showLoadError('tbl-hyperfilter', 5);
-    anyError = true;
-  }
-
-  // ---- Chiaperini (Pistões) ----
-  if(pistoesRes.status === 'fulfilled'){
-    const chiaperini = pistoesRes.value.map(r => {
-      const a = parseCsvNumber(r[1]), b = parseCsvNumber(r[2]), c = parseCsvNumber(r[3]);
-      const semPreco = (!a && !b && !c);
-      return [r[0], semPreco ? null : a, semPreco ? null : b, semPreco ? null : c];
-    });
-    renderSimple('tbl-chiaperini', chiaperini);
-  } else {
-    console.error('Falha Pistões:', pistoesRes.reason);
-    showLoadError('tbl-chiaperini', 4);
-    anyError = true;
-  }
-
-  // ---- Representação ----
-  if(repRes.status === 'fulfilled'){
-    const repRows = repRes.value;
-    const pcRows      = repRows.slice(0, 9);
-    const ddRows      = repRows.slice(9, 17);
-    const secRows     = repRows.slice(17, 31);
-    const filtrosRows = repRows.slice(31, 41);
-    const descRows    = repRows.slice(41, 46);
-    renderLinePotencia('tbl-pc', pcRows);
-    renderLinePotencia('tbl-dd', ddRows);
-    renderNomePreco('tbl-secadores', secRows);
-    renderNomePreco('tbl-filtros', filtrosRows);
-    renderDesconto('tbl-desconto', descRows);
-  } else {
-    console.error('Falha Representação:', repRes.reason);
-    showLoadError('tbl-pc', 5);
-    showLoadError('tbl-dd', 5);
-    showLoadError('tbl-secadores', 2);
-    showLoadError('tbl-filtros', 2);
-    showLoadError('tbl-desconto', 2);
-    anyError = true;
-  }
-
-  // ---- HH ----
-  if(hhRes.status === 'fulfilled'){
-    renderHH('tbl-hh', hhRes.value);
-  } else {
-    console.error('Falha HH:', hhRes.reason);
-    showLoadError('tbl-hh', 4);
-    anyError = true;
-  }
-
-  syncEl.textContent = anyError
-    ? 'Alguns preços não sincronizaram — veja o console (F12) para detalhes.'
-    : 'Preços sincronizados às ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-}
-
-loadLivePrices();
-setInterval(loadLivePrices, 5 * 60 * 1000);
+document.getElementById('tbl-hh').innerHTML = hh.map(r=>{
+  const [faixa, desc, item, ref, contrato] = r;
+  return `<tr data-search="${(faixa+' '+desc+' '+item).toLowerCase()}">
+    <td class="name">${faixa}<br><span style="color:var(--muted);font-size:11px;">${desc}</span></td>
+    <td class="name">${item}</td>
+    <td class="val min">${money(ref)}</td>
+    <td class="val">${money(contrato)}</td>
+  </tr>`;
+}).join('');
 
 // ===================== TABS =====================
 const tabs = document.querySelectorAll('.tab');
