@@ -221,7 +221,8 @@
     <div class="tab" data-section="el"><span class="tag">EL</span>E-line (Rotor/Titan)</div>
     <div class="tab" data-section="ch"><span class="tag">CH</span>Chiaperini</div>
     <div class="tab" data-section="rp"><span class="tag">RP</span>Representação</div>
-    <div class="tab" data-section="hh"><span class="tag">HH</span>Mão de Obra</div>
+        <div class="tab" data-section="lc"><span class="tag">LC</span>Locação</div>
+  <div class="tab" data-section="hh"><span class="tag">HH</span>Mão de Obra</div>
   </div>
 </div>
 
@@ -378,7 +379,55 @@
     </div>
   </section>
 
-  <section class="section" id="sec-hh">
+    <section class="section" id="sec-lc">
+    <div class="section-head">
+      <h2>Locação — Clientes Parceiros</h2>
+      <p>Tabela referência de valores de locação · válida até 31/12/2026 · emitida por Alexandro Spaeth em 31/08/2026</p>
+    </div>
+
+    <div class="rule-box">
+      <b>Condições gerais:</b> manutenções inclusas nos valores. Não incluem rede de ar e periféricos, ART de instalação/projetos, frete, mangueiras/acessórios/ferramentas pneumáticas e inversor de frequência — cotar à parte quando necessário (conforme disponibilidade de estoque, o equipamento pode já vir equipado com inversor). Locações seguem com NF-e de remessa de locação + emissão de Fatura de Locação (FL).
+    </div>
+
+    <div class="card">
+      <h3>Compressor + Secador e Filtro(s)</h3>
+      <div class="scroll-x"><table data-table="lc">
+        <thead><tr>
+          <th>Equipamento</th><th>Potência kW (HP)</th>
+          <th style="text-align:right">1 mês</th><th style="text-align:right">3 meses</th><th style="text-align:right">6 meses</th><th style="text-align:right">12 meses</th>
+          <th style="text-align:right">24 meses</th><th style="text-align:right">36 meses</th><th style="text-align:right">48 meses</th><th style="text-align:right">60 meses</th>
+        </tr></thead>
+        <tbody id="tbl-locacao-compressores"></tbody>
+      </table></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;">Valores mensais — quanto maior o período de contrato, menor a mensalidade.</p>
+    </div>
+
+    <div class="card">
+      <h3>Reservatórios</h3>
+      <div class="scroll-x"><table data-table="lc">
+        <thead><tr>
+          <th>Equipamento</th>
+          <th style="text-align:right">1 mês</th><th style="text-align:right">3 meses</th><th style="text-align:right">6 meses</th><th style="text-align:right">12 meses</th>
+          <th style="text-align:right">24 meses</th><th style="text-align:right">36 meses</th><th style="text-align:right">48 meses</th><th style="text-align:right">60 meses</th>
+        </tr></thead>
+        <tbody id="tbl-locacao-reservatorios"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>Secadores + Filtros</h3>
+      <div class="scroll-x"><table data-table="lc">
+        <thead><tr>
+          <th>Equipamento</th>
+          <th style="text-align:right">1 mês</th><th style="text-align:right">3 meses</th><th style="text-align:right">6 meses</th><th style="text-align:right">12 meses</th>
+          <th style="text-align:right">24 meses</th><th style="text-align:right">36 meses</th><th style="text-align:right">48 meses</th><th style="text-align:right">60 meses</th>
+        </tr></thead>
+        <tbody id="tbl-locacao-secadores"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+<section class="section" id="sec-hh">
     <div class="section-head">
       <h2>Mão de Obra "HH" — Manutenção 2026</h2>
       <p>Tabela de referência por faixa de potência. Emitida por Alexandro em 26/06/2026.</p>
@@ -523,6 +572,39 @@ const hh = [
   ["Isentos / Boosters / Sopradores / Bombas de vácuo / Geradores", "Todos os modelos", "Mão de obra", 325.00, 280.00],
 ];
 
+const locacaoCompressores = [
+  ["Compressor + secador e filtro(s)", "4 (6HP)", 1972.22, 1775.00, 1676.39, 1577.78, 1479.17, 1380.55, 1207.00, 1089.65],
+  ["Compressor + secador e filtro(s)", "7 (10)", 2684.32, 2415.89, 2281.67, 2147.46, 2013.24, 1879.02, 1642.80, 1483.09],
+  ["Compressor + secador e filtro(s)", "11 (15)", 2987.98, 2689.18, 2539.78, 2390.38, 2240.99, 2091.59, 1828.64, 1650.86],
+  ["Compressor + secador e filtro(s)", "15 (20)", 3294.11, 2964.70, 2799.99, 2635.29, 2470.58, 2305.88, 2016.00, 1820.00],
+  ["Compressor + secador e filtro(s)", "18 (25)", 3891.73, 3502.56, 3307.97, 3113.38, 2918.80, 2724.21, 2381.74, 2150.18],
+  ["Compressor + secador e filtro(s)", "22 (30)", 4557.22, 4101.50, 3873.64, 3645.78, 3417.92, 3190.05, 2789.02, 2517.86],
+  ["Compressor + secador e filtro(s)", "30 (40)", 5669.44, 5102.50, 4819.02, 4535.55, 4252.08, 3968.61, 3469.70, 3132.37],
+  ["Compressor + secador e filtro(s)", "37 (50)", 6847.04, 6162.34, 5819.98, 5477.63, 5135.28, 4792.93, 4190.39, 3782.99],
+  ["Compressor + secador e filtro(s)", "45 (60)", 8236.09, 7412.48, 7000.68, 6588.87, 6177.07, 5765.26, 5040.49, 4550.44],
+  ["Compressor + secador e filtro(s)", "55 (75)", 9487.01, 8538.31, 8063.96, 7589.61, 7115.26, 6640.91, 5806.05, 5241.57],
+  ["Compressor + secador e filtro(s)", "75 (100)", 11661.42, 10495.28, 9912.21, 9329.14, 8746.07, 8162.99, 7136.79, 6442.93],
+  ["Compressor + secador e filtro(s)", "90 (125)", 12152.87, 10937.58, 10329.94, 9722.30, 9114.65, 8507.01, 7437.56, 6714.46],
+  ["Compressor + secador e filtro(s)", "110 (150)", 14879.74, 13391.77, 12647.78, 11903.79, 11159.81, 10415.82, 9106.40, 8221.06],
+  ["Compressor + secador e filtro(s)", "132 (175)", 17062.50, 15356.25, 14503.13, 13650.00, 12796.88, 11943.75, 10442.25, 9427.03],
+  ["Compressor + secador e filtro(s)", "160 (200)", 18868.40, 16981.56, 16038.14, 15094.72, 14151.30, 13207.88, 11547.46, 10424.79],
+  ["Compressor + secador e filtro(s)", "200 (250)", 23975.56, 21578.00, 20379.23, 19180.45, 17981.67, 16782.89, 14673.04, 13246.50],
+];
+
+const locacaoReservatorios = [
+  ["Reservatório 300 a 500 lts", 500.00, 450.00, 425.00, 400.00, 375.00, 350.00, 306.00, 276.25],
+  ["Reservatório 1000 lts", 850.00, 765.00, 722.50, 680.00, 637.50, 595.00, 520.20, 469.63],
+  ["Reservatório 2000 lts", 1250.00, 1125.00, 1062.50, 1000.00, 937.50, 875.00, 765.00, 690.63],
+];
+
+const locacaoSecadores = [
+  ["Secador + filtro(s): 40 a 110 pcm", 618.90, 557.01, 526.07, 495.12, 464.18, 433.23, 378.77, 341.94],
+  ["Secador + filtro(s): 120 a 250 pcm", 964.96, 868.46, 820.22, 771.97, 723.72, 675.47, 590.56, 533.14],
+  ["Secador + filtro(s): 300 a 500 pcm", 1897.21, 1707.49, 1612.63, 1517.77, 1422.91, 1328.05, 1161.09, 1048.21],
+  ["Secador + filtro(s): 600 a 1000 pcm", 5513.16, 4961.84, 4686.19, 4410.53, 4134.87, 3859.21, 3374.05, 3046.02],
+  ["Secador + filtro(s): 1100 a 1500 pcm", 6887.00, 6198.30, 5853.95, 5509.60, 5165.25, 4820.90, 4214.84, 3805.07],
+];
+
 // ===================== RENDER =====================
 function fmt(v){
   if(v === null || v === undefined) return null;
@@ -586,6 +668,24 @@ document.getElementById('tbl-hh').innerHTML = hh.map(r=>{
     <td class="val">${money(contrato)}</td>
   </tr>`;
 }).join('');
+
+function renderLocacao(tbodyId, rows, hasPot){
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = rows.map(r => {
+    const name = r[0];
+    const pot = hasPot ? r[1] : null;
+    const vals = hasPot ? r.slice(2) : r.slice(1);
+    let cells = `<td class="name">${name}</td>`;
+    if(hasPot) cells += `<td class="mono" style="color:var(--muted)">${pot}</td>`;
+    cells += vals.map((v, i) => `<td class="val${i === vals.length - 1 ? ' min' : ''}">${money(v)}</td>`).join('');
+    const search = (name + ' ' + (pot || '')).toLowerCase();
+    return `<tr data-search="${search}">${cells}</tr>`;
+  }).join('');
+}
+
+renderLocacao('tbl-locacao-compressores', locacaoCompressores, true);
+renderLocacao('tbl-locacao-reservatorios', locacaoReservatorios, false);
+renderLocacao('tbl-locacao-secadores', locacaoSecadores, false);
 
 // ===================== TABS =====================
 const tabs = document.querySelectorAll('.tab');
