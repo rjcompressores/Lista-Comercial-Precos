@@ -203,17 +203,6 @@
 </head>
 <body>
 
-<div id="lock">
-  <div class="lock-plate" id="lockPlate">
-    <div class="lock-icon">&#128274;</div>
-    <h2>Acesso restrito</h2>
-    <p>Manual comercial — uso exclusivo da equipe Grupo RJ.<br>Digite a senha para continuar.</p>
-    <input id="lockInput" type="password" placeholder="senha" autocomplete="off">
-    <button id="lockBtn">Acessar</button>
-    <div id="lockError"></div>
-  </div>
-</div>
-
 <div class="plate-wrap">
   <div class="plate">
     <span class="rivet tl"></span><span class="rivet tr"></span>
@@ -420,37 +409,6 @@
 </footer>
 
 <script>
-// ===================== ACESSO =====================
-const SITE_PASSWORD = "rjcomercial2026";
-
-const lock = document.getElementById('lock');
-const lockPlate = document.getElementById('lockPlate');
-const lockInput = document.getElementById('lockInput');
-const lockBtn = document.getElementById('lockBtn');
-const lockError = document.getElementById('lockError');
-
-function tryUnlock(){
-  if(lockInput.value === SITE_PASSWORD){
-    sessionStorage.setItem('rj_unlocked', '1');
-    lock.classList.add('hidden');
-  } else {
-    lockError.textContent = 'Senha incorreta. Tente novamente.';
-    lockPlate.classList.remove('shake');
-    void lockPlate.offsetWidth;
-    lockPlate.classList.add('shake');
-    lockInput.value = '';
-    lockInput.focus();
-  }
-}
-lockBtn.addEventListener('click', tryUnlock);
-lockInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') tryUnlock(); });
-
-if(sessionStorage.getItem('rj_unlocked') === '1'){
-  lock.classList.add('hidden');
-} else {
-  lockInput.focus();
-}
-
 // ===================== DADOS =====================
 // EDITE OS ARRAYS ABAIXO SEMPRE QUE UM PREÇO MUDAR NA PLANILHA MESTRE.
 // Estrutura: [nome, valor1, valor2, valor3, extra]
